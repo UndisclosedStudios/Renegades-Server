@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package internal;
+
+message Point {
+    string username = 1;
+}
