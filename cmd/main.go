@@ -1,11 +1,13 @@
 package main
 
 import (
-	"flag"
-	"github.com/getsentry/sentry-go"
-	"log"
-	"strconv"
-	"undisclosedstudios.infrandom.net/renegades/gameservers/go/pkg"
+  "flag"
+  "github.com/getsentry/sentry-go"
+  env "github.com/joho/godotenv"
+  "os"
+  "strconv"
+  err "undisclosedstudios.infrandom.net/renegades/gameservers/go/internal/error"
+  "undisclosedstudios.infrandom.net/renegades/gameservers/go/pkg/server"
 )
 
 var (
@@ -13,17 +15,16 @@ var (
 )
 
 func init() {
-	err := sentry.Init(sentry.ClientOptions{
-		Dsn: "https://92b3b35240a04680a7ca4e880c95ced4@sentry.io/3941878",
+  dotenvErr := env.Load()
+	sentryErr := sentry.Init(sentry.ClientOptions{
+		Dsn: os.Getenv("SENTRY_DSN"),
 	})
-	if err != nil {
-		log.Fatalf("sentry.init: %s", err)
-	}
+	err.Checks([]error{dotenvErr, sentryErr})
 }
 
 func main() {
 	flag.Parse()
-	lis, grpcServer := pkg.Create(strconv.Itoa(*port))
+	lis, grpcServer := server.Create(strconv.Itoa(*port))
 	//pb.RegisterRouteGuideServer(grpcServer, &user{})
 	_ = grpcServer.Serve(lis)
 }

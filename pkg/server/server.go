@@ -1,7 +1,7 @@
-package pkg
+package server
 
 import (
-	log "github.com/sirupsen/logrus"
+  log "github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 	"net"
 )

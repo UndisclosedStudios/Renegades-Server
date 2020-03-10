@@ -5,13 +5,28 @@ It can be used anywhere inside the cmd/ and internal/ directories (since it is i
 */
 package error
 
-import log "github.com/sirupsen/logrus"
+import (
+  "github.com/getsentry/sentry-go"
+  log "github.com/sirupsen/logrus"
+)
 
 func Check(err error, params ...string) {
-	if err != nil {
-		log.WithError(err).WithFields(log.Fields{
-			"Message": params,
-		})
-		panic(err)
-	}
+  if err != nil{
+    log.WithError(err).WithFields(log.Fields{
+      "Message": params,
+    })
+    sentry.CaptureException(err)
+  }
+  panic(err)
+}
+
+func Checks(err []error, params ...string) {
+  if err != nil && params != nil {
+    for i := 0; i <= len(err); i++ {
+      log.WithError(err[i]).WithFields(log.Fields{
+        "Message": params[i],
+      })
+      sentry.CaptureException(err[i])
+    }
+  }
 }
