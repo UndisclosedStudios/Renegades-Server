@@ -1,1 +1,1 @@
-protoc -I main/ --go_out=main/ main/proto/*.proto
+protoc -I ../internal/proto --go_out=../internal/proto user.proto
