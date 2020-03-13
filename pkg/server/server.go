@@ -6,6 +6,7 @@ import (
 	"net"
 )
 
+//Create function create and return a listener object and server object based on the port given.
 func Create(port string) (net.Listener, *grpc.Server) {
 	//TODO: Find a better way to pass "127.0.0.1:"
 	lis, err := net.Listen("tcp", "127.0.0.1:"+port)

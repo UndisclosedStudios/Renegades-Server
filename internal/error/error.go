@@ -1,8 +1,4 @@
-/*
-A simple package which provides tools to help handling the errors.
-
-It can be used anywhere inside the cmd/ and internal/ directories (since it is inside the internal/ folder).
-*/
+//Package error contains a bunch of methods to help with errors handling
 package error
 
 import (
@@ -10,8 +6,10 @@ import (
   log "github.com/sirupsen/logrus"
 )
 
+//Check handle the processing of errors by making usage of a third-party logger and sentry.
+//err must be passed the error itself and params some optionals string to be printed in the console.
 func Check(err error, params ...string) {
-  if err != nil{
+  if err != nil {
     log.WithError(err).WithFields(log.Fields{
       "Message": params,
     })
@@ -20,8 +18,10 @@ func Check(err error, params ...string) {
   panic(err)
 }
 
+//Checks handle the processing of errors by making usage of a third-party logger and sentry.
+//err must be passed the errors and params some optionals string to be printed in the console.
 func Checks(err []error, params ...string) {
-  if err != nil{
+  if err != nil {
     switch params {
     case nil:
       for i := 0; i < len(err); i++ {
