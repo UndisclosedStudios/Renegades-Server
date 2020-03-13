@@ -22,11 +22,19 @@ func Check(err error, params ...string) {
 
 func Checks(err []error, params ...string) {
   if err != nil{
-    for i := 0; i <= len(err); i++ {
-      log.WithError(err[i]).WithFields(log.Fields{
-        "Message": params[i],
-      })
-      sentry.CaptureException(err[i])
+    switch params {
+    case nil:
+      for i := 0; i < len(err); i++ {
+        log.WithError(err[i])
+        sentry.CaptureException(err[i])
+      }
+    default:
+      for i := 0; i < len(err); i++ {
+        log.WithError(err[i]).WithFields(log.Fields{
+          "Message": params[i],
+        })
+        sentry.CaptureException(err[i])
+      }
     }
   }
 }

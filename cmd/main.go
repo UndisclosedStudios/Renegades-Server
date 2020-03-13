@@ -4,6 +4,7 @@ import (
   "flag"
   "github.com/getsentry/sentry-go"
   env "github.com/joho/godotenv"
+  "log"
   "os"
   "strconv"
   err "undisclosedstudios.infrandom.net/renegades/gameservers/go/internal/error"
@@ -23,8 +24,12 @@ func init() {
 }
 
 func main() {
+  log.Print("Starting ...")
 	flag.Parse()
+  log.Printf("Binded to port %u ! ", flag.Parse)
 	lis, grpcServer := server.Create(strconv.Itoa(*port))
+	log.Print("Server created !")
 	//pb.RegisterRouteGuideServer(grpcServer, &user{})
 	_ = grpcServer.Serve(lis)
+  log.Print("Server launched !")
 }
