@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package internal;
+package proto;
 
 message Point {
     string username = 1;
